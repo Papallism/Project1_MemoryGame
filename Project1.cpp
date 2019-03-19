@@ -7,10 +7,11 @@ using namespace std;
 
 const int BOARDSIZE = 3; //constant for board dimensions
 
-void clearScreen();
-void displayStars(char [][BOARDSIZE]);
-void displayPositions();
-void displayChoice(const char [][BOARDSIZE], const int , const int);
+//function prototypes
+void clearScreen(); //prints 50 new lines after a 2-second pause
+void displayStars(char [][BOARDSIZE]); //displays the board with stars during the game
+void displayPositions(); //displays the position of each element
+void displayChoice(const char [][BOARDSIZE], char [][BOARDSIZE], const int , const int); //reveals the users choice on board
 
 int main()
 {
@@ -32,7 +33,7 @@ int main()
             if((pos1 < 1 || pos1 > 9) || (pos2 < 1 || pos2 > 9) || pos1 == pos2)
                 cout << "Invalid input! Please enter valid positions.\n";
         }while((pos1 < 1 || pos1 > 9) || (pos2 < 1 || pos2 > 9) || pos1 == pos2);
-        displayChoice(board, pos1, pos2);
+        displayChoice(board, stars, pos1, pos2);
         clearScreen();
         displayStars(stars);
     }
@@ -46,7 +47,7 @@ void displayPositions()
     cout << "\nBoard positions are:\n\n1  2  3 \n4  5  6\n7  8  9\n";
 }
 
-void displayChoice(const char board[][BOARDSIZE], const int choice1, const int choice2)
+void displayChoice(const char board[][BOARDSIZE], char starsBoard[][BOARDSIZE], const int choice1, const int choice2)
 {//displays board after selection
     cout << "\nBoard is:\n\n";
     for(int i = 0; i < BOARDSIZE; i++)
@@ -58,7 +59,12 @@ void displayChoice(const char board[][BOARDSIZE], const int choice1, const int c
             else if((i == (choice2 - 1) / BOARDSIZE) && (j == (choice2 - 1) % BOARDSIZE))
                 cout << setw(3) << left << board[i][j];
             else
-                cout << setw(3) << left << "*";
+                cout << setw(3) << left << starsBoard[i][j];
+            if((board[(choice1 - 1) / BOARDSIZE][(choice1 - 1) % BOARDSIZE]) == (board[(choice2 - 1) / BOARDSIZE][(choice2 - 1) % BOARDSIZE]))
+            {
+                starsBoard[(choice1 - 1) / BOARDSIZE][(choice1 - 1) % BOARDSIZE] = board[(choice1 - 1) / BOARDSIZE][(choice1 - 1) % BOARDSIZE];
+                starsBoard[(choice2 - 1) / BOARDSIZE][(choice2 - 1) % BOARDSIZE] = board[(choice2 - 1) / BOARDSIZE][(choice2 - 1) % BOARDSIZE];
+            }
         }
         cout << endl;
     }
