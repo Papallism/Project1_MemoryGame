@@ -9,12 +9,14 @@ const int BOARDSIZE = 3; //constant for board dimensions
 
 //function prototypes
 void clearScreen(); //prints 50 new lines after a 2-second pause
-void displayStars(char [][BOARDSIZE]); //displays the board with stars during the game
+void displayStars(const char [][BOARDSIZE]); //displays the board with stars during the game
 void displayPositions(); //displays the position of each element
 void displayChoice(const char [][BOARDSIZE], char [][BOARDSIZE], const int , const int); //reveals the users choice on board
+bool endGame(const char [][BOARDSIZE], const char [][BOARDSIZE]);
 
 int main()
 {
+    char replay;
     bool win = false;
     int pos1, pos2, moves = 0;
     char stars[BOARDSIZE][BOARDSIZE] = {'*', '*', '*', '*', '*', '*', '*', '*', '*'};
@@ -36,6 +38,27 @@ int main()
         displayChoice(board, stars, pos1, pos2);
         clearScreen();
         displayStars(stars);
+        win = endGame(board, stars);
+        if(win)
+        {
+            cout << "\nYou did it in " << moves << " moves. Play again (Y or N)? ";
+            do
+            {
+                cin >> replay;
+                if(replay != 'y' && replay != 'Y' && replay != 'n' && replay && 'N')
+                    cout << "\nInvalid input. Please enter a valid character.\n";
+                if(replay == 'y' || replay == 'Y')
+                {
+                    win = false;
+                    moves = 0;
+                    for(int i = 0; i < BOARDSIZE; i++)
+                        for(int j = 0; j < BOARDSIZE; j++)
+                            stars[i][j] = '*';
+                }
+                if(replay == 'n' || replay == 'N')
+                    cout << "\nBye.\n";
+            }while(replay != 'y' && replay != 'Y' && replay != 'n' && replay != 'N');
+        }
     }
 
     return 0;
@@ -70,7 +93,7 @@ void displayChoice(const char board[][BOARDSIZE], char starsBoard[][BOARDSIZE], 
     }
 }
 
-void displayStars(char starsBoard [][BOARDSIZE])
+void displayStars(const char starsBoard [][BOARDSIZE])
 {
     cout << "\nBoard is:\n\n";
     for(int i = 0; i < BOARDSIZE; i++)
@@ -88,6 +111,15 @@ void clearScreen()
         cout << endl;
 }
 
+bool endGame(const char board[][BOARDSIZE], const char stars[][BOARDSIZE])
+{
+    for(int i = 0; i < BOARDSIZE; i++)
+        for(int j = 0; j < BOARDSIZE; j++)
+            if(board[i][j] >= 'a' && board[i][j] <= 'd')
+                if((board[i][j] != stars[i][j]) || (board[i][j] == ' '))
+                    return false;
+    return true;
+}
 
 
 
