@@ -49,6 +49,8 @@ int main()
                     cout << "\nInvalid input. Please enter a valid character.\n";
                 if(replay == 'y' || replay == 'Y') //user wants to replay so set moves to 0, win to false
                 {
+                    clearScreen();
+                    displayPositions();
                     win = false;
                     moves = 0;
                     for(int i = 0; i < BOARDSIZE; i++) //reset the board back to asterisks for replay
