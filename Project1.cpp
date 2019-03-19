@@ -7,6 +7,7 @@ using namespace std;
 
 const int BOARDSIZE = 3; //constant for board dimensions
 
+void clearScreen();
 void displayStars(char [][BOARDSIZE]);
 void displayPositions();
 void displayChoice(const char [][BOARDSIZE], const int , const int);
@@ -32,6 +33,7 @@ int main()
                 cout << "Invalid input! Please enter valid positions.\n";
         }while((pos1 < 1 || pos1 > 9) || (pos2 < 1 || pos2 > 9) || pos1 == pos2);
         displayChoice(board, pos1, pos2);
+        clearScreen();
         displayStars(stars);
     }
 
@@ -73,7 +75,12 @@ void displayStars(char starsBoard [][BOARDSIZE])
     }
 }
 
-
+void clearScreen()
+{
+    Sleep(2000);
+    for(int i = 0; i < 50; i++)
+        cout << endl;
+}
 
 
 
