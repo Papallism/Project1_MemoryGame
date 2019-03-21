@@ -7,12 +7,11 @@ using namespace std;
 
 const int BOARDSIZE = 3; //constant for board dimensions
 
-//function prototypes
-void clearScreen(); //prints 50 new lines after a 2-second pause
-void displayStars(const char [][BOARDSIZE]); //displays the board with stars during the game
-void displayPositions(); //displays the starting board and the position of each element
-void displayChoice(const char [][BOARDSIZE], char [][BOARDSIZE], const int , const int); //reveals the users choice on board
-bool endGame(const char [][BOARDSIZE], const char [][BOARDSIZE]); //determines if the user found all pairs
+void clearScreen();
+void displayStars(const char [][BOARDSIZE]);
+void displayPositions();
+void displayChoice(const char [][BOARDSIZE], char [][BOARDSIZE], const int , const int);
+bool endGame(const char [][BOARDSIZE], const char [][BOARDSIZE]);
 void cleanBoard(char [][BOARDSIZE]);
 void fillBoard(char [][BOARDSIZE]);
 
@@ -22,7 +21,7 @@ int main()
     bool win = false;
     int pos1, pos2, moves = 0;
     char stars[BOARDSIZE][BOARDSIZE] = {'*', '*', '*', '*', '*', '*', '*', '*', '*'};
-    char board[BOARDSIZE][BOARDSIZE] = {'a', 'd', 'b', 'a', 'c', ' ', 'd', 'b', 'c'};
+    char board[BOARDSIZE][BOARDSIZE];
 
     cleanBoard(board);
     fillBoard(board);
@@ -36,7 +35,7 @@ int main()
             cout << "\nMove #" << moves << " : Enter two positions to match: ";
             cin >> pos1;
             cin >> pos2;
-            if((pos1 < 1 || pos1 > 9) || (pos2 < 1 || pos2 > 9) || pos1 == pos2) //position input validation
+            if((pos1 < 1 || pos1 > 9) || (pos2 < 1 || pos2 > 9) || pos1 == pos2) //invalid input warning
                 cout << "Invalid input! Please enter valid positions.\n";
         }while((pos1 < 1 || pos1 > 9) || (pos2 < 1 || pos2 > 9) || pos1 == pos2); //do-while loop until user inputs valid positions
         displayChoice(board, stars, pos1, pos2);
@@ -44,8 +43,8 @@ int main()
         win = endGame(board, stars);
         if(!win)
             displayStars(stars);
-        else
-        { //check if the user wants to replay after winning
+        else //check if the user wants to replay after winning
+        {
             displayStars(board);
             cout << "\nYou did it in " << moves << " moves. Play again (Y or N)? ";
             do
@@ -53,8 +52,8 @@ int main()
                 cin >> replay;
                 if(replay != 'y' && replay != 'Y' && replay != 'n' && replay && 'N') //message for invalid input
                     cout << "\nInvalid input. Please enter a valid character.\n";
-                if(replay == 'y' || replay == 'Y') //user wants to replay so set moves to 0, win to false
-                {
+                if(replay == 'y' || replay == 'Y')
+                { //user wants to replay so everything is reset
                     cleanBoard(board);
                     fillBoard(board);
                     clearScreen();
@@ -74,12 +73,14 @@ int main()
     return 0;
 }
 
+//displays the starting board and the position of each element
 void displayPositions()
 {
     cout << "\nBoard is:\n\n*  *  *\n*  *  *\n*  *  *\n";
     cout << "\nBoard positions are:\n\n1  2  3 \n4  5  6\n7  8  9\n";
 }
 
+//reveals the users choice on board
 void displayChoice(const char board[][BOARDSIZE], char starsBoard[][BOARDSIZE], const int choice1, const int choice2)
 {//displays board after selection
     cout << "\nBoard is:\n\n";
@@ -103,6 +104,7 @@ void displayChoice(const char board[][BOARDSIZE], char starsBoard[][BOARDSIZE], 
     }
 }
 
+//displays the board with stars during the game
 void displayStars(const char starsBoard [][BOARDSIZE])
 {
     cout << "\nBoard is:\n\n";
@@ -114,6 +116,7 @@ void displayStars(const char starsBoard [][BOARDSIZE])
     }
 }
 
+//prints 50 new lines after a 2-second pause
 void clearScreen()
 {
     Sleep(2000);
@@ -121,6 +124,7 @@ void clearScreen()
         cout << endl;
 }
 
+//determines if the user found all pairs
 bool endGame(const char board[][BOARDSIZE], const char stars[][BOARDSIZE])
 {
     for(int i = 0; i < BOARDSIZE; i++)
@@ -131,6 +135,7 @@ bool endGame(const char board[][BOARDSIZE], const char stars[][BOARDSIZE])
     return true;    //return true because all elements are matched
 }
 
+//fills array with spaces
 void cleanBoard(char board[][BOARDSIZE])
 {
     for(int i = 0; i < 3; i++)
@@ -138,6 +143,7 @@ void cleanBoard(char board[][BOARDSIZE])
             board[i][j] = ' ';
 }
 
+//fills random positions with characters
 void fillBoard(char board[][BOARDSIZE])
 {
     int pos;
