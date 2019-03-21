@@ -13,6 +13,8 @@ void displayStars(const char [][BOARDSIZE]); //displays the board with stars dur
 void displayPositions(); //displays the starting board and the position of each element
 void displayChoice(const char [][BOARDSIZE], char [][BOARDSIZE], const int , const int); //reveals the users choice on board
 bool endGame(const char [][BOARDSIZE], const char [][BOARDSIZE]); //determines if the user found all pairs
+void cleanBoard(char [][BOARDSIZE]);
+void fillBoard(char [][BOARDSIZE]);
 
 int main()
 {
@@ -22,6 +24,8 @@ int main()
     char stars[BOARDSIZE][BOARDSIZE] = {'*', '*', '*', '*', '*', '*', '*', '*', '*'};
     char board[BOARDSIZE][BOARDSIZE] = {'a', 'd', 'b', 'a', 'c', ' ', 'd', 'b', 'c'};
 
+    cleanBoard(board);
+    fillBoard(board);
     cout << "Welcome to the Matching Game. At each move, choose two positions that you think match.\n";
     displayPositions();
     while(!win)
@@ -41,9 +45,8 @@ int main()
         if(!win)
             displayStars(stars);
         else
-            displayStars(board);
-        if(win)
         { //check if the user wants to replay after winning
+            displayStars(board);
             cout << "\nYou did it in " << moves << " moves. Play again (Y or N)? ";
             do
             {
@@ -52,6 +55,8 @@ int main()
                     cout << "\nInvalid input. Please enter a valid character.\n";
                 if(replay == 'y' || replay == 'Y') //user wants to replay so set moves to 0, win to false
                 {
+                    cleanBoard(board);
+                    fillBoard(board);
                     clearScreen();
                     displayPositions();
                     win = false;
@@ -124,4 +129,39 @@ bool endGame(const char board[][BOARDSIZE], const char stars[][BOARDSIZE])
                 if((board[i][j] != stars[i][j]) || (board[i][j] == ' ')) //and if the corresponding element in the asterisks board is not revealed
                     return false;   //or if it is a space then return false to keep playing
     return true;    //return true because all elements are matched
+}
+
+void cleanBoard(char board[][BOARDSIZE])
+{
+    for(int i = 0; i < 3; i++)
+        for(int j = 0; j < 3; j++)
+            board[i][j] = ' ';
+}
+
+void fillBoard(char board[][BOARDSIZE])
+{
+    int pos;
+    srand(time(0));
+    for(int i = 1; i < 9; i++)
+    {
+        do
+        {
+            pos = rand() % 9 + 1;
+        }while(board[(pos - 1) / 3][(pos - 1) % 3] != ' ');
+        switch(i)
+        {
+            case 1:
+            case 2: board[(pos - 1) / 3][(pos - 1) % 3] = 'a';
+                    break;
+            case 3:
+            case 4: board[(pos - 1) / 3][(pos - 1) % 3] = 'b';
+                    break;
+            case 5:
+            case 6: board[(pos - 1) / 3][(pos - 1) % 3] = 'c';
+                    break;
+            case 7:
+            case 8: board[(pos - 1) / 3][(pos - 1) % 3] = 'd';
+                    break;
+        }
+    }
 }
