@@ -152,9 +152,9 @@ void fillBoard(char board[][BOARDSIZE])
     {
         do
         {
-            pos = rand() % 9 + 1;
+            pos = rand() % 9 + 1; //while generated position is not empty generate again
         }while(board[(pos - 1) / 3][(pos - 1) % 3] != ' ');
-        switch(i)
+        switch(i) //use variable i to keep track of letters added to the board
         {
             case 1:
             case 2: board[(pos - 1) / 3][(pos - 1) % 3] = 'a';
